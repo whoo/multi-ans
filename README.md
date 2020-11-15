@@ -6,6 +6,7 @@ idea & code inspire from Wyatt Roersma(wyattroersma@wyattroersma.com)
 
 
 ## Setup
+       Clone multi-ans from the dir /CTFd/plugins/
 
 ## How to use
 Go to challenges to create a challenge Create a new challenge
