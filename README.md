@@ -2,7 +2,7 @@
 
 This plugin allows you to create challenges that give players points by awards for each right answer. It also also you to set wrong answers in which they will lose points for.
 
-idea & code inspire from Wyatt Roersma(wyattroersma@wyattroersma.com)
+Idea & code was inspired from Wyatt Roersma (wyattroersma@wyattroersma.com)
 
 
 ## Setup
