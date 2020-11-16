@@ -94,7 +94,7 @@ class MultipleValueChallenge(BaseChallenge):
 
     @classmethod
     def solve(cls, user, team, challenge, request):
-        print(f"Sove {user} {team}")
+        print(f"Arward: {user} {team}")
         #super().solve(user, team, challenge, request)  // Do not Solve for MultiAnswser
 
         data = request.form or request.get_json()
@@ -111,16 +111,13 @@ class MultipleValueChallenge(BaseChallenge):
         db.session.add(solve)
         db.session.commit()
 
-
-
     @staticmethod
     def attempt(chal,request):
-        print(f"Essai ::: {chal.id} {chal.type}")
+#        print(f"Essai ::: {chal.id} {chal.type}")
         data = request.form or request.get_json()
         submission = data["submission"].strip()
         flags =     Flags.query.filter_by(challenge_id=chal.id).all()
 
-        
         team = Users.query.filter_by(id=1).first()
         sub = Submissions.query.filter_by(
                         challenge_id=chal.id , 
@@ -130,11 +127,11 @@ class MultipleValueChallenge(BaseChallenge):
         if (len(sub)>0):
            return False, "Duplicate"
 
-        print(f"{session['id']}")
-        print(f"Keys {chal.value}")
+#        print(f"{session['id']}")
+#        print(f"Keys {chal.value}")
         for flag in flags:
             try:
-                print(f">> {flag.data} {flag.content}")
+#                print(f">> {flag.data} {flag.content}")
                 if (flag.content==submission):
                    award = Awards(
                    user_id=session['id'],
