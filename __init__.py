@@ -13,10 +13,10 @@ from CTFd.utils.user import get_ip
 
 
 class MultipleChallenge(Challenges):
-#    __mapper_args__ = {"polymorphic_identity": "dynamic"}
-    id = db.Column(
-        db.Integer, db.ForeignKey("challenges.id", ondelete="CASCADE"), primary_key=True
-    )
+    __mapper_args__ = {"polymorphic_identity": "multiple"}
+    id = db.Column( db.Integer, db.ForeignKey("challenges.id", ondelete="CASCADE"), primary_key=True)
+    initial = db.Column(db.Integer, default=0)
+    penalty = db.Column(db.Integer,default=0)
 
     def __init__(self, *args, **kwargs):
         super(MultipleChallenge, self).__init__(**kwargs)
@@ -133,11 +133,12 @@ class MultipleValueChallenge(BaseChallenge):
             try:
 #                print(f">> {flag.data} {flag.content}")
                 if (flag.content==submission):
+                   nflag= flag.content.split('_')[-1].strip('}')
                    award = Awards(
                    user_id=session['id'],
                    team_id=team.id if team else None,
                    name=chal.name,
-                   description="test",
+                   description=nflag,
                    value=chal.value,
                    category = chal.category,
                    icon="crosshairs"
@@ -154,9 +155,9 @@ class MultipleValueChallenge(BaseChallenge):
               user_id=session['id'], 
               team_id=team.id if team else None,
               name=chal.name,
-              description="test", 
+              description="Echec", 
               value=chal.value*-1, 
-              icon="skull",
+              icon="ban",
               category = chal.category
               )
               
@@ -168,6 +169,7 @@ class MultipleValueChallenge(BaseChallenge):
 
 def load(app):
     CHALLENGE_CLASSES["multiple"] = MultipleValueChallenge
+    app.db.create_all()
     register_plugin_assets_directory(
         app, base_path="/plugins/multi-ans/assets/"
     )
