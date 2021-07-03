@@ -118,27 +118,27 @@ class MultipleValueChallenge(BaseChallenge):
         submission = data["submission"].strip()
         flags =     Flags.query.filter_by(challenge_id=chal.id).all()
 
-        team = Users.query.filter_by(id=1).first()
+        user  = Users.query.filter_by(id=session['id']).first()
+
         sub = Submissions.query.filter_by(
                         challenge_id=chal.id , 
                         provided=submission, 
-                        team_id=team.id if team else None
+                        team_id=user.team_id if user else None
                         ).all()
         if (len(sub)>0):
-           return False, "Duplicate"
-
+           return False, "Pas de doublons ici"
+        
 #        print(f"{session['id']}")
 #        print(f"Keys {chal.value}")
         for flag in flags:
             try:
 #                print(f">> {flag.data} {flag.content}")
                 if (flag.content==submission):
-                   nflag= flag.content.split('_')[-1].strip('}')
                    award = Awards(
                    user_id=session['id'],
-                   team_id=team.id if team else None,
+                   team_id=user.team_id if user else None,
                    name=chal.name,
-                   description=nflag,
+                   description=flag.comments,
                    value=chal.value,
                    category = chal.category,
                    icon="crosshairs"
@@ -153,7 +153,7 @@ class MultipleValueChallenge(BaseChallenge):
 
         award = Awards( 
               user_id=session['id'], 
-              team_id=team.id if team else None,
+              team_id=user.team_id if user else None,
               name=chal.name,
               description="Echec", 
               value=chal.value*-1, 
