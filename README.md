@@ -15,6 +15,7 @@ Go to challenges to create a challenge Create a new challenge
 * Please note that the value you select is what will be added for correct answers and reduced from the players score for anything that matches wrong answers
 
 
-
+# Attention
+Need to patch Flag objects to add comments
 
 
